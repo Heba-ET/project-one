@@ -47,3 +47,37 @@ Route::prefix('cars')->group(function() {
         return "car type is volkswagen";
     });    
 });
+
+Route::get('cv', function () {
+    return view('cv');
+});
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('link', function () {
+    $url = route('w');
+    return "<a href='$url'>go to welcome</a>";
+});
+
+Route::get('welcome', function () {
+    return "welcome to laravel";
+})->name('w');
+
+Route::get('login', function () {
+    return view('login');
+});
+Route::post('data', function () {
+    return 'data inserted successeful';
+})->name('data');
+
+Route::get('contact', function () {
+    return view ('contact');
+});
+Route::post('data', function () {
+    $name=$_POST['name'];
+    $email=$_POST['email'];
+    $content=$_POST['content'];
+    $message=$_POST['message'];
+    return $name .  $email . $content . $message;
+})->name('data');
