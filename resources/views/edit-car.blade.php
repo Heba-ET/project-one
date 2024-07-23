@@ -23,43 +23,39 @@
   <main>
     <div class="container my-5">
       <div class="bg-light p-5 rounded">
-        <h2 class="fw-bold fs-2 mb-5 pb-2">Add Class</h2>
-        <form action="{{route('classes.store')}}" method="post" class="px-md-5">
+        <h2 class="fw-bold fs-2 mb-5 pb-2">Edit Car</h2>
+        <form action="" method="post" class="px-md-5">
             @csrf
           <div class="form-group mb-3 row">
-            <label for="" class="form-label col-md-2 fw-bold text-md-end">Class Title:</label>
+            <label for="" class="form-label col-md-2 fw-bold text-md-end">Car Title:</label>
             <div class="col-md-10">
-              <input type="text" placeholder="" class="form-control py-2" name="className"/>
+              <input type="text" placeholder="BMW" class="form-control py-2" name="carTitle" value="{{$car->carTitle}}"/>
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="" class="form-label col-md-2 fw-bold text-md-end">Price:</label>
             <div class="col-md-10">
-              <input type="number" step="0.1" placeholder="Enter price" class="form-control py-2" name="price"/>
+              <input type="number" step="0.1" placeholder="Enter price" class="form-control py-2" name="price" value="{{$car->price}}"/>
             </div>
           </div>
           <div class="form-group mb-3 row">
-            <label for="" class="form-label col-md-2 fw-bold text-md-end">Capacity:</label>
+            <label for="" class="form-label col-md-2 fw-bold text-md-end">Description:</label>
             <div class="col-md-10">
-              <input type="checkbox" class="form-check-input" style="padding: 0.7rem;" name="capacity" />
+              <textarea name="description" id="" cols="30" rows="5" class="form-control py-2">{{$car->description}}</textarea>
             </div>
           </div>
           <hr>
           <div class="form-group mb-3 row">
-            <label for="" class="form-label col-md-2 fw-bold text-md-end">Time From:</label>
+            <label for="" class="form-label col-md-2 fw-bold text-md-end">Published:</label>
             <div class="col-md-10">
-              <input type="time" class="form-time-input" style="padding: 0.7rem;" name="timeFrom"/>
-            </div>
-          </div>
-          <div class="form-group mb-3 row">
-            <label for="" class="form-label col-md-2 fw-bold text-md-end">Time To:</label>
-            <div class="col-md-10">
-              <input type="time" class="form-time-input" style="padding: 0.7rem;" name="timeTo"/>
-            </div>
+              <input type="checkbox" class="form-check-input" style="padding: 0.7rem;" name="published" @checked($car->published)/>
+            </div>.
           </div>
           <div class="text-md-end">
             <button class="btn mt-4 btn-secondary text-white fs-5 fw-bold border-0 py-2 px-md-5">
-              Add Class
+              Ed
+              
+              it Car
             </button>
           </div>
         </form>
@@ -70,5 +66,5 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+00
 </html>

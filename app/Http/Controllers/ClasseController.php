@@ -11,7 +11,8 @@ class ClasseController extends Controller
      */
     public function index()
     {
-        //
+        $classes = Classe::get();
+        return view('classes',compact('classes'));
     }
 
     /**
@@ -27,18 +28,13 @@ class ClasseController extends Controller
      */
     public function store(Request $request)
     {
-        $className = 'programming';
-        $price = 54;
-        $capacity = true;
-        $timeFrom = '03:00';
-        $timeTo = '06:00';
-
+        
         Classe::create([
-            'className' => $className,
-            'price' => $price,
-            'capacity' => $capacity,
-            'timeFrom' => $timeFrom,
-            'timeTo' => $timeTo,
+            'className' => $request->className,
+            'price' => $request->price,
+            'capacity' => isset($request->capacity),
+            'timeFrom' => $request->timeFrom,
+            'timeTo' => $request->timeTo,
         ]);
 
         return "Data added successfully";
@@ -57,7 +53,8 @@ class ClasseController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $classes = Classe::findOrFail($id);
+        return view('edit-class', compact('classes'));
     }
 
     /**

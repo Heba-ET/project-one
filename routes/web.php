@@ -6,9 +6,21 @@ use App\Http\Controllers\ClasseController;
 
 Route::get('classes/add', [ClasseController::class, 'create'])->name('classes.create');
 Route::post('classes', [ClasseController::class, 'store'])->name('classes.store');
+Route::get('classes', [ClasseController::class, 'index'])->name('classes.index');
+Route::get('classes/{id}', [classeController::class, 'edit'])->name('classes.edit');
 
+Route::get('cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('cars/create', [CarController::class, 'create'])->name('cars.create');
 Route::post('cars', [CarController::class, 'store'])->name('cars.store');
+Route::get('cars/{id}', [CarController::class, 'edit'])->name('cars.edit');
+Route::get('test/{id}', function($id) {
+
+});
+
+
+
+
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });

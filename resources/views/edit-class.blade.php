@@ -23,43 +23,43 @@
   <main>
     <div class="container my-5">
       <div class="bg-light p-5 rounded">
-        <h2 class="fw-bold fs-2 mb-5 pb-2">Add Class</h2>
-        <form action="{{route('classes.store')}}" method="post" class="px-md-5">
+        <h2 class="fw-bold fs-2 mb-5 pb-2">Edit Class</h2>
+        <form action="" method="post" class="px-md-5">
             @csrf
           <div class="form-group mb-3 row">
             <label for="" class="form-label col-md-2 fw-bold text-md-end">Class Title:</label>
             <div class="col-md-10">
-              <input type="text" placeholder="" class="form-control py-2" name="className"/>
+              <input type="text" placeholder="" class="form-control py-2" name="className" value="{{$classes->className}}"/>
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="" class="form-label col-md-2 fw-bold text-md-end">Price:</label>
             <div class="col-md-10">
-              <input type="number" step="0.1" placeholder="Enter price" class="form-control py-2" name="price"/>
+              <input type="number" step="0.1" placeholder="Enter price" class="form-control py-2" name="price" value="{{$classes->price}}"/>
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="" class="form-label col-md-2 fw-bold text-md-end">Capacity:</label>
             <div class="col-md-10">
-              <input type="checkbox" class="form-check-input" style="padding: 0.7rem;" name="capacity" />
+              <input type="checkbox" class="form-check-input" style="padding: 0.7rem;" name="capacity" @checked($classes->capacity) />
             </div>
           </div>
           <hr>
           <div class="form-group mb-3 row">
             <label for="" class="form-label col-md-2 fw-bold text-md-end">Time From:</label>
             <div class="col-md-10">
-              <input type="time" class="form-time-input" style="padding: 0.7rem;" name="timeFrom"/>
+              <input type="time" class="form-time-input" style="padding: 0.7rem;" name="timeFrom" value="{{$classes->timeFrom}}"/>
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="" class="form-label col-md-2 fw-bold text-md-end">Time To:</label>
             <div class="col-md-10">
-              <input type="time" class="form-time-input" style="padding: 0.7rem;" name="timeTo"/>
+              <input type="time" class="form-time-input" style="padding: 0.7rem;" name="timeTo" value="{{$classes->timeTo}}"/>
             </div>
           </div>
           <div class="text-md-end">
             <button class="btn mt-4 btn-secondary text-white fs-5 fw-bold border-0 py-2 px-md-5">
-              Add Class
+              Edit Class
             </button>
           </div>
         </form>
