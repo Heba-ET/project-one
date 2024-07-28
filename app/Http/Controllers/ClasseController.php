@@ -45,7 +45,8 @@ class ClasseController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $class = Classe::findOrFail($id);
+        return view('class-details', compact('class'));
     }
 
     /**
@@ -68,8 +69,10 @@ class ClasseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request): RedirectResponse
     {
-        //
+        $id = $request->id;
+        Classe::where('id',$id)->delete();
+        return redirect('classes.index');
     }
 }

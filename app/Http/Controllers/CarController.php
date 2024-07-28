@@ -45,7 +45,8 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $car = Car::findOrFail($id);
+        return view('carDetails', compact('car'));
     }
 
     /**
@@ -62,7 +63,16 @@ class CarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = [
+            'carTitle' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price,
+            'published' => isset($request->published),
+        ];
+
+        Car::where('id', $id)->update($data);
+
+        return "data updated successfully";
     }
 
     /**
@@ -70,6 +80,6 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return 'delete page';
     }
 }

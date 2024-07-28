@@ -7,12 +7,20 @@ use App\Http\Controllers\ClasseController;
 Route::get('classes/add', [ClasseController::class, 'create'])->name('classes.create');
 Route::post('classes', [ClasseController::class, 'store'])->name('classes.store');
 Route::get('classes', [ClasseController::class, 'index'])->name('classes.index');
-Route::get('classes/{id}', [classeController::class, 'edit'])->name('classes.edit');
+Route::get('classes/{id}/edit', [ClasseController::class, 'edit'])->name('classes.edit');
+Route::delete('delete', [ClasseController::class, 'destroy'])->name('delete.classes');
+Route::get('classes/{id}', [classeController::class, 'show'])->name('classes.show');
 
 Route::get('cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('cars/create', [CarController::class, 'create'])->name('cars.create');
 Route::post('cars', [CarController::class, 'store'])->name('cars.store');
-Route::get('cars/{id}', [CarController::class, 'edit'])->name('cars.edit');
+Route::get('cars/{id}/edit', [CarController::class, 'edit'])->name('cars.edit');
+Route::put('cars/{id}', [CarController::class, 'update'])->name('cars.update');
+Route::get('cars/{id}', [CarController::class, 'show'])->name('car.show');
+Route::get('cars/{id}/delete', [CarController::class, 'destroy'])->name('cars.destroy');
+
+
+
 Route::get('test/{id}', function($id) {
 
 });

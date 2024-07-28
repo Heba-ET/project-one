@@ -34,6 +34,8 @@
               <th scope="col">Time From</th>
               <th scope="col">Time To</th>
               <th scope="col">Edit</th>
+              <th scope="col">Show</th>
+              <th scope="col">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -45,6 +47,16 @@
               <td>{{$class['timeFrom']}}</td>
               <td>{{$class['timeTo']}}</td>
               <td><a href="{{route('classes.edit', $class['id'])}}">Edit</a></td>
+              <td><a href="{{route('classes.show', $class['id'])}}">Show</a></td>
+              <td>
+                <form action="{{route('delete.classes')}}" method="post">
+                  @csrf
+                  @method('DELETE')
+                  <input type="hidden" name="id" value="{{$class->id}}">
+                  <input type="submit"  value="delete">
+                </form>
+              </td>  
+
             </tr>
             @endforeach
           </tbody>
