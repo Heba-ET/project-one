@@ -23,35 +23,43 @@
   <main>
     <div class="container my-5">
       <div class="bg-light p-5 rounded">
-        <h2 class="fw-bold fs-2 mb-5 pb-2">All Cars</h2>
+        <h2 class="fw-bold fs-2 mb-5 pb-2">Trashed Classes</h2>
         <table class="table table-hover">
           <thead>
             <tr class="table-dark">
-              <th scope="col">Car Title</th>
+              <th scope="col">Class Name</th>
               <th scope="col">Price</th>
-              <th scope="col">Description</th>
-              <th scope="col">Published</th>
-              <th scope="col">Edit</th>
-              <th scope="col">Delete</th>
+              <th scope="col">Capacity</th>
+              <th scope="col">Time From</th>
+              <th scope="col">Time To</th>
+              <th scope="col">Restore</th>
+              <th scope="col">Permenant Delete</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($cars as $car)
+            @foreach($classes as $class) 
             <tr>
-              <td scope="row">{{$car['carTitle']}}</td>
-              <td>{{$car['price']}}</td>
-              <td>{{Str::limit($car['description'],20,$end=',,,')}}</td>
-              <td>@if($car['published']==1) yes @else no @endif</td>
-              <td><a href="{{route('cars.edit',$car['id'])}}">Edit</a></td>
+              <td scope="row">{{$class['className']}}</td>
+              <td>{{$class['price']}}</td>
+              <td>{{$class['capacity']}}</td>
+              <td>{{$class['timeFrom']}}</td>
+              <td>{{$class['timeTo']}}</td>
               <td>
-                <form action="{{route('cars.destroy', $car->id)}}" method="POST">
+                <form action="{{route('classes.restore', $class['id'])}}" method="post">
+                  @csrf
+                  @method('patch')
+                  <button type="submit" class="btn btn-link m-0 p-0">Restore</button>
+                </form>
+              </td>
+              <td>
+              <form action="{{route('classes.forceDelete', $class['id'])}}" method="post">
                   @csrf
                   @method('delete')
-                <button type="submit" class="btn btn-link m-0 p-0">Delete</button>
-              </form>
-            </td>
+                  <button type="submit" class="btn btn-link m-0 p-0">Delete</button>
+                </form>
+              </td>
             </tr>
-           @endforeach
+            @endforeach
           </tbody>
         </table>
       </div>

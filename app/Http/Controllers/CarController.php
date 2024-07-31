@@ -30,14 +30,16 @@ class CarController extends Controller
     {
         //dd($request);
 
-        Car::create([
-            'carTitle' => $request->carTitle,
-            'price' => $request->price,
-            'description' => $request->description,
-            'published' => isset($request->published),
+        $data = $request->validate([
+            'carTitle' => 'required|string',
+            'description' => 'required|string|max:1000',
+            'price' => 'required',
         ]);
-
-        return "Data added successfully";
+        
+        $data['published'] = isset($request->published);
+        
+        Car::create($data);
+        return redirect()->route('cars.index');
     }
 
     /**
@@ -64,7 +66,7 @@ class CarController extends Controller
     public function update(Request $request, string $id)
     {
         $data = [
-            'carTitle' => $request->title,
+            'carTitle' => $request->carTitle,
             'description' => $request->description,
             'price' => $request->price,
             'published' => isset($request->published),
@@ -72,14 +74,35 @@ class CarController extends Controller
 
         Car::where('id', $id)->update($data);
 
-        return "data updated successfully";
+        return redirect()->route('cars.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,string $id)
     {
-        return 'delete page';
+        // softDelete
+        Car::where('id', $id)->delete();
+        return redirect()->route('cars.index');
+    }
+
+    public function showDeleted() {
+        $cars =  Car::onlyTrashed()->get();
+
+        return view('trashedCars', compact('cars'));
+    }
+
+    public function restore(string $id) {
+        Car::where('id', $id)->restore();
+        return redirect()->route('cars.showDeleted');
+    }
+
+    public function forceDelete(string $id) {
+        Car::where('id', $id)->forceDelete();
+        return redirect()->route('cars.index');
     }
 }
+        
+    
+

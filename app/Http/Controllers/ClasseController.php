@@ -29,15 +29,15 @@ class ClasseController extends Controller
     public function store(Request $request)
     {
         
-        Classe::create([
-            'className' => $request->className,
-            'price' => $request->price,
-            'capacity' => isset($request->capacity),
-            'timeFrom' => $request->timeFrom,
-            'timeTo' => $request->timeTo,
+        $data = $request->validate([
+            'className' => 'required|string',
+            'price' => 'required',
+            'timeFrom' => 'required',
+            'timeTo' => 'required',
         ]);
-
-        return "Data added successfully";
+          $data['capacity'] = isset($request->capacity);
+          Classe::create($data);
+          return redirect()->route('classes.index');
     }
 
     /**
@@ -63,16 +63,40 @@ class ClasseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->validate([
+            'className' => 'required|string',
+            'price' => 'required',
+            'timeFrom' => 'required',
+            'timeTo' => 'required',
+        ]);
+          $data['capacity'] = isset($request->capacity);
+          Classe::where('id', $id)->update($data);
+          return redirect()->route('classes.index');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request,string $id)
     {
         $id = $request->id;
         Classe::where('id',$id)->delete();
-        return redirect('classes.index');
+        return redirect()->route('classes.index');
+    }
+    public function showDeleted() {
+        $classes =  Classe::onlyTrashed()->get();
+
+        return view('trashedClasses', compact('classes'));
+    }
+
+    public function restore(string $id) {
+        Classe::where('id', $id)->restore();
+        return redirect()->route('classes.showDeleted');
+    }
+
+    public function forceDelete(string $id) {
+        Classe::where('id', $id)->forceDelete();
+        return redirect()->route('classes.index');
     }
 }
