@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ClasseController;
 
@@ -21,16 +22,24 @@ Route::prefix('cars')->group(function() {
     Route::get('create', [CarController::class, 'create'])->name('cars.create');
     Route::post('', [CarController::class, 'store'])->name('cars.store');
     Route::get('{car}/edit', [CarController::class, 'edit'])->name('cars.edit');
+    Route::get('show/{id}', [CarController::class, 'show'])->name('cars.show');
     Route::put('{car}', [CarController::class, 'update'])->name('cars.update');
     Route::delete('{id}/delete', [CarController::class, 'destroy'])->name('cars.destroy');
     Route::get('trashed', [CarController::class, 'showDeleted'])->name('cars.showDeleted');
     Route::patch('{id}', [CarController::class, 'restore'])->name('cars.restore');
     Route::delete('{id}', [CarController::class, 'forceDelete'])->name('cars.forceDelete');
-}); 
-
-Route::get('test/{id}', function($id) {
-
+    Route::post('upload',[CarController::Class,'uploadFile'])->name('upload');
 });
+
+
+
+Route::get('uploadForm', [ExampleController::class, 'uploadForm']);
+Route::post('upload',[ExampleController::Class,'upload'])->name('upload');
+
+
+//Route::get('test/{id}', function($id) {
+
+//});
 
 
 

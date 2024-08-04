@@ -29,17 +29,19 @@ class CarController extends Controller
     public function store(Request $request)
     {
         //dd($request);
-
+        //  logic to upload image in public/assets/images
         $data = $request->validate([
             'carTitle' => 'required|string',
             'description' => 'required|string|max:1000',
             'price' => 'required',
+            'image' => 'required',
         ]);
-        
+        //$fileName = $this->uploadFile($request->image, 'assets/images');
+       // $data['image'] = $fileName;
         $data['published'] = isset($request->published);
         
         Car::create($data);
-        return redirect()->route('cars.index');
+        return "created successfully"; //redirect()->route('cars.index');
     }
 
     /**
@@ -65,15 +67,15 @@ class CarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = [
-            'carTitle' => $request->carTitle,
-            'description' => $request->description,
-            'price' => $request->price,
-            'published' => isset($request->published),
-        ];
-
+        $data = $request->validate([
+            'carTitle' => 'required|string',
+            'description' => 'required|string|max:1000',
+            'price' => 'required',
+        ]);
+        
+        $data['published'] = isset($request->published);
+        
         Car::where('id', $id)->update($data);
-
         return redirect()->route('cars.index');
     }
 
@@ -101,6 +103,14 @@ class CarController extends Controller
     public function forceDelete(string $id) {
         Car::where('id', $id)->forceDelete();
         return redirect()->route('cars.index');
+    }
+
+
+    public function uploadFile(Request $request){
+        $file_extension = $request->image->getClientOriginalExtension();
+        $file_name = time() . '.' . $file_extension;
+        $path = 'assets/images';
+        $request->image->move($path, $file_name);
     }
 }
         
