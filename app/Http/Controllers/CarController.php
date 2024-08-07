@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
+use App\Traits\Common;
 class CarController extends Controller
 {
+    use Common;
     /**
      * Display a listing of the resource.
      */
@@ -36,12 +38,12 @@ class CarController extends Controller
             'price' => 'required',
             'image' => 'required',
         ]);
-        //$fileName = $this->uploadFile($request->image, 'assets/images');
-       // $data['image'] = $fileName;
+        
+        $data['image'] = $this->uploadFile($request->image, 'assets/images');
         $data['published'] = isset($request->published);
         
         Car::create($data);
-        return "created successfully"; //redirect()->route('cars.index');
+        return redirect()->route('cars.index');
     }
 
     /**
@@ -71,8 +73,11 @@ class CarController extends Controller
             'carTitle' => 'required|string',
             'description' => 'required|string|max:1000',
             'price' => 'required',
+            'image' => 'required',
         ]);
-        
+        if ($request->hasFile('image')) {
+            $data['image'] = $this->uploadFile($request->image, 'assets/images');
+        }
         $data['published'] = isset($request->published);
         
         Car::where('id', $id)->update($data);
@@ -106,12 +111,7 @@ class CarController extends Controller
     }
 
 
-    public function uploadFile(Request $request){
-        $file_extension = $request->image->getClientOriginalExtension();
-        $file_name = time() . '.' . $file_extension;
-        $path = 'assets/images';
-        $request->image->move($path, $file_name);
-    }
+    
 }
         
     

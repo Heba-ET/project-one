@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ClasseController;
+use App\Http\Controllers\ProductController;
 
 Route::prefix('classes')->group(function() {
     Route::get('', [ClasseController::class, 'index'])->name('classes.index');
@@ -28,11 +29,17 @@ Route::prefix('cars')->group(function() {
     Route::get('trashed', [CarController::class, 'showDeleted'])->name('cars.showDeleted');
     Route::patch('{id}', [CarController::class, 'restore'])->name('cars.restore');
     Route::delete('{id}', [CarController::class, 'forceDelete'])->name('cars.forceDelete');
-    Route::post('upload',[CarController::Class,'uploadFile'])->name('upload');
+    
+});
+
+Route::prefix('products')->group(function() {
+   Route::get('', [ProductController::class, 'index'])->name('products.index');
+   Route::get('create', [ProductController::class, 'create'])->name('products.create');
+   Route::post('', [ProductController::class, 'store'])->name('products.store');
 });
 
 
-
+Route::get('index', [ExampleController::class, 'index']);
 Route::get('uploadForm', [ExampleController::class, 'uploadForm']);
 Route::post('upload',[ExampleController::Class,'upload'])->name('upload');
 

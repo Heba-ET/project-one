@@ -32,5 +32,7 @@ class ExampleController extends Controller
         
         return 'Uploaded';
     }
-        
+       function index(){
+        return view('index');
+       } 
 }
