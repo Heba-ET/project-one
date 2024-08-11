@@ -13,8 +13,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderby('created_at','desc')->first();
-        return view('index',compact('products'));
+        //$products = Product::orderby('created_at','desc')->first();
+        //$products = Product::latest()->take(3)->get();
+        $products = Product::get();
+        return view('products',compact('products'));
     }
 
     /**
@@ -56,7 +58,8 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('edit-product', compact('product'));
     }
 
     /**
@@ -64,7 +67,18 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->validate([
+            'productTitle' => 'required|string',
+            'description' => 'required|string|max:1000',
+            'price' => 'required',
+            'image' => 'required',
+        ]);
+        if ($request->hasFile('image')) {
+        $data['image'] = $this->uploadFile($request->image, 'assets/images');
+        }
+
+        Product::where('id', $id)->update($data);
+        return redirect()->route('products.index');
     }
 
     /**
