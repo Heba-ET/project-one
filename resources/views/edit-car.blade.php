@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Car</title>
+  <title>Edit Car</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,12 +31,32 @@
             <label for="" class="form-label col-md-2 fw-bold text-md-end">Car Title:</label>
             <div class="col-md-10">
               <input type="text" placeholder="BMW" class="form-control py-2" name="carTitle" value="{{old('carTitle',$car->carTitle)}}"/>
+              @error('carTitle')
+              <div class="alert alert-warning">{{$message}}</div>
+                @enderror
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="" class="form-label col-md-2 fw-bold text-md-end">Price:</label>
             <div class="col-md-10">
               <input type="number" step="0.1" placeholder="Enter price" class="form-control py-2" name="price" value="{{old('price',$car->price)}}"/>
+              @error('price')
+              <div class="alert alert-warning">{{$message}}</div>
+                @enderror
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="" class="form-label col-md-2 fw-bold text-md-end">Category:</label>
+            <div class="col-md-10">
+              <select name="category_id" id="category_id" class="form-control">
+                <option value="">Select Category</option>
+              
+                <option value="{{@selected($cats == category_id) ? 'selected' : ''}}">{{$cats->category_name}}</option>
+              
+              </select>
+              @error('category_id')
+                <div class="alert alert-warning">{{$message}}</div>
+              @enderror
             </div>
           </div>
           <div class="form-group mb-3 row">
@@ -50,13 +70,14 @@
             <label for="" class="form-label col-md-2 fw-bold text-md-end">Published:</label>
             <div class="col-md-10">
               <input type="checkbox" class="form-check-input" style="padding: 0.7rem;" name="published" @checked(old('published',$car->published))/>
+              @error('description')
+              <div class="alert alert-warning">{{$message}}</div>
+                @enderror
             </div>.
           </div>
           <div class="text-md-end">
             <button class="btn mt-4 btn-secondary text-white fs-5 fw-bold border-0 py-2 px-md-5">
-              Ed
-              
-              it Car
+              Edit Car
             </button>
           </div>
         </form>

@@ -74,7 +74,7 @@ class ProductController extends Controller
             'image' => 'required',
         ]);
         if ($request->hasFile('image')) {
-        $data['image'] = $this->uploadFile($request->image, 'assets/images');
+        $data['image'] = $this->uploadFile($request->image, 'assets/images/product');
         }
 
         Product::where('id', $id)->update($data);

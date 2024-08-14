@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
+use App\Models\Category;
 use App\Traits\Common;
 class CarController extends Controller
 {
@@ -22,7 +23,8 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view('addCar');
+        $categories = Category::select('id', 'category_name')->get();
+        return view('addCar', compact('categories'));
     }
 
     /**
@@ -37,12 +39,13 @@ class CarController extends Controller
             'description' => 'required|string|max:1000',
             'price' => 'required',
             'image' => 'required',
+            'category_id' => 'required'
         ]);
         
         $data['image'] = $this->uploadFile($request->image, 'assets/images');
         $data['published'] = isset($request->published);
-        
         Car::create($data);
+        
         return redirect()->route('cars.index');
     }
 
@@ -61,7 +64,14 @@ class CarController extends Controller
     public function edit(string $id)
     {
         $car = Car::findOrFail($id);
-        return view('edit-car', compact('car'));
+
+       // $category = Category::find(Input::get('id'));
+        $categories = Category::all();
+       // $cats = array();
+       // foreach($categories as $category){
+        // $cats[$category->id] = $category->category_name;
+        
+        return view('edit-car', compact('car'))->withCategories($categories);
     }
 
     /**
@@ -74,6 +84,7 @@ class CarController extends Controller
             'description' => 'required|string|max:1000',
             'price' => 'required',
             'image' => 'required',
+            'category_id' => 'required',
         ]);
         if ($request->hasFile('image')) {
             $data['image'] = $this->uploadFile($request->image, 'assets/images');
