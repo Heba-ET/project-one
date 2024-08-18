@@ -5,6 +5,7 @@ use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CrudController;
 
 Route::prefix('classes')->group(function() {
     Route::get('', [ClasseController::class, 'index'])->name('classes.index');
@@ -18,7 +19,7 @@ Route::prefix('classes')->group(function() {
     Route::delete('{id}', [ClasseController::class, 'forceDelete'])->name('classes.forceDelete');
 }); 
 
-Route::prefix('cars')->group(function() {
+Route::prefix('cars')->middleware('verified')->group(function() {
     Route::get('', [CarController::class, 'index'])->name('cars.index');
     Route::get('create', [CarController::class, 'create'])->name('cars.create');
     Route::post('', [CarController::class, 'store'])->name('cars.store');
@@ -43,7 +44,7 @@ Route::prefix('products')->group(function() {
 Route::get('index', [ExampleController::class, 'index']);
 Route::get('uploadForm', [ExampleController::class, 'uploadForm']);
 Route::post('upload',[ExampleController::Class,'upload'])->name('upload');
-
+Route::get('mail', [CrudController::Class,'index'])->name('data');
 
 //Route::get('test/{id}', function($id) {
 
@@ -102,9 +103,9 @@ Route::post('upload',[ExampleController::Class,'upload'])->name('upload');
 // Route::get('cv', function () {
 //     return view('cv');
 // });
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+ Route::get('/', function () {
+     return view('welcome');
+ });
 
 // Route::get('link', function () {
 //     $url = route('w');
@@ -122,13 +123,19 @@ Route::post('upload',[ExampleController::Class,'upload'])->name('upload');
 //     return 'data inserted successeful';
 // })->name('data');
 
-// Route::get('contact', function () {
-//     return view ('contact');
+//  Route::get('contact', function () {
+//      return view ('contact');
+ 
+//  Route::post('data', function () {
+//       $name=$_POST['name'];
+//       $email=$_POST['email'];
+//       $content=$_POST['content'];
+//       $message=$_POST['message'];
+//       return $name .  $email . $content . $message;
+//   })->name('data');
 // });
-// Route::post('data', function () {
-//     $name=$_POST['name'];
-//     $email=$_POST['email'];
-//     $content=$_POST['content'];
-//     $message=$_POST['message'];
-//     return $name .  $email . $content . $message;
-// })->name('data');
+
+
+Auth::routes(['verify' => true]);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

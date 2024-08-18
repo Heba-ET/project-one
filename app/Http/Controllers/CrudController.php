@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\ContentUs;
 
 class CrudController extends Controller
 {
@@ -11,7 +13,7 @@ class CrudController extends Controller
      */
     public function index()
     {
-        //
+        Mail::to('sandbox.smtp.mailtrap.io')->send(new contactUs());
     }
 
     /**
