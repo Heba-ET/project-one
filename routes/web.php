@@ -9,7 +9,6 @@ use App\Http\Controllers\CrudController;
 
 Route::prefix('classes')->group(function() {
     Route::get('', [ClasseController::class, 'index'])->name('classes.index');
-    Route::get('create', [ClasseController::class, 'create'])->name('classes.create');
     Route::post('', [ClasseController::class, 'store'])->name('classes.store');
     Route::get('{class}/edit', [ClasseController::class, 'edit'])->name('classes.edit');
     Route::put('{class}', [ClasseController::class, 'update'])->name('classes.update');
@@ -40,12 +39,10 @@ Route::prefix('products')->group(function() {
    Route::get('{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
    Route::put('{product}', [ProductController::class, 'update'])->name('products.update');
 });
-
-Route::get('index', [ExampleController::class, 'index']);
-Route::get('uploadForm', [ExampleController::class, 'uploadForm']);
-Route::post('upload',[ExampleController::Class,'upload'])->name('upload');
-Route::get('mail', [CrudController::Class,'index'])->name('data');
-
+Route::group(['middleware' => 'mobile.redirect'], function () {
+    Route::get('', [ProductController::class, 'index'])->name('products.index');
+    Route::get('', [ClasseController::class, 'index'])->name('classes.index');
+});
 //Route::get('test/{id}', function($id) {
 
 //});
