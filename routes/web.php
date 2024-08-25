@@ -17,20 +17,40 @@ Route::prefix('classes')->group(function() {
     Route::patch('{id}', [ClasseController::class, 'restore'])->name('classes.restore');
     Route::delete('{id}', [ClasseController::class, 'forceDelete'])->name('classes.forceDelete');
 }); 
-
-Route::prefix('cars')->middleware('verified')->group(function() {
-    Route::get('', [CarController::class, 'index'])->name('cars.index');
-    Route::get('create', [CarController::class, 'create'])->name('cars.create');
-    Route::post('', [CarController::class, 'store'])->name('cars.store');
-    Route::get('{car}/edit', [CarController::class, 'edit'])->name('cars.edit');
-    Route::get('show/{id}', [CarController::class, 'show'])->name('cars.show');
-    Route::put('{car}', [CarController::class, 'update'])->name('cars.update');
-    Route::delete('{id}/delete', [CarController::class, 'destroy'])->name('cars.destroy');
-    Route::get('trashed', [CarController::class, 'showDeleted'])->name('cars.showDeleted');
-    Route::patch('{id}', [CarController::class, 'restore'])->name('cars.restore');
-    Route::delete('{id}', [CarController::class, 'forceDelete'])->name('cars.forceDelete');
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ], function(){ 
+        Route::group(['middleware' => 'verified'], function () {
+            //  CarController routes
+            Route::resource('cars', CarController::class);
+            Route::group([
+                'prefix' => 'cars',
+                'as' => 'cars.',
+                'controller' => CarController::class,
+            ], function () {
+                Route::get('trashed/get', 'showDeleted')->name('showDeleted');
+                Route::patch('{car}', 'restore')->name('restore');
+                Route::put('{car}', 'update')->name('update');
+                Route::delete('{car}/delete', 'forceDelete')->name('forceDelete');
+            });
+        });
+    });        
+// Route::prefix('cars')->middleware('verified')->group(function() {
+//     Route::get('', [CarController::class, 'index'])->name('cars.index');
+//     Route::get('create', [CarController::class, 'create'])->name('cars.create');
+//     Route::post('', [CarController::class, 'store'])->name('cars.store');
+//     Route::get('{car}/edit', [CarController::class, 'edit'])->name('cars.edit');
+//     Route::get('show/{id}', [CarController::class, 'show'])->name('cars.show');
+//     Route::put('{car}', [CarController::class, 'update'])->name('cars.update');
+//     Route::delete('{id}/delete', [CarController::class, 'destroy'])->name('cars.destroy');
+//     Route::get('trashed', [CarController::class, 'showDeleted'])->name('cars.showDeleted');
+//     Route::patch('{id}', [CarController::class, 'restore'])->name('cars.restore');
+//     Route::delete('{id}', [CarController::class, 'forceDelete'])->name('cars.forceDelete');
     
-});
+// });
+
 
 Route::prefix('products')->group(function() {
    Route::get('', [ProductController::class, 'index'])->name('products.index');
